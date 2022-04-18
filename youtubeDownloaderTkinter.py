@@ -12,13 +12,13 @@ import shutil
 def selectPath():
     #Allows user to select their path of download
     path = filedialog.askdirectory()
-    pathLabel.configue(text = path)
+    pathLabel.config(text = path)
 
 def downloadFile():
     #get user path
     getLink = linkField.get()
     #get the selected path
-    userPath = pathLabel.cget()
+    userPath = pathLabel.cget("text")
     yt.title = ("Downloading...")
     #download the video
     mp4Video = YouTube(getLink).streams.get_highest_resolution().download()
@@ -30,19 +30,20 @@ def downloadFile():
 
 ##Window of program
 yt = Tk()
-yt.title = ("Video Downloader")
-yt.geometry = ("500x500")
-canvas = yt.geometry
+title = yt.title("Video Downloader")
+canvas = Canvas(yt, width = 500, height = 500)
+canvas.pack()
 
 #image logo
 logo_img = PhotoImage(file='youtube.png')
+
 #resize
 logo_img = logo_img.subsample(2, 2)
-#canvas.create_image(250, 80, image=logo_img)
+canvas.create_image(250, 80, image=logo_img)
 
 ##Link field
-linkField = Entry (yt, width = 50)
-linkLabel = Label (yt, text = "Enter Download Link: ", font = ['Ariel', 15])
+linkField = Entry (yt, width = 40, font = ('Arial', 15))
+linkLabel = Label (yt, text = "Enter Download Link: ", font = ('Ariel', 15))
 
 #Select path for saving file
 pathLabel = Label(yt, text = "Select Path For Download", font = ['Ariel', 20])
@@ -54,7 +55,7 @@ canvas.create_window(250, 330, window = selectBtn)
 
 ##Adding widgets to window
 canvas.create_window(250, 170, window = linkLabel)
-canvas.create_window(250, 220, window = linkLabel)
+canvas.create_window(250, 245, window = linkField)
 
 #Download buttons
 download_btn = Button(yt, text = "Download File!", bg = 'green', padx= 22, pady= 5, font= ('Arial', 15), fg= '#fff', command= downloadFile)
